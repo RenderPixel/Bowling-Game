@@ -505,7 +505,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 620fcca56ca95614ba23bc41e6f04408, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_V0: {x: 0, y: 0, z: 7}
+  m_V0: {x: 0.7, y: 0, z: 7}
   m_startPosition: {x: 0, y: 0, z: 0}
   m_turnAndSpinOverTime:
     serializedVersion: 2
@@ -531,6 +531,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  m_spinDotP: 0
+  m_curveMult: 40
 --- !u!850595691 &1096311886
 LightingSettings:
   m_ObjectHideFlags: 0
