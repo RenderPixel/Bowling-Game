@@ -7,8 +7,7 @@ public class BallPhysics : MonoBehaviour
 {
     
     // The starting 3D Velocity throw vector.
-    [SerializeField]
-    Vector3 m_V0;
+    public Vector3 m_V0;
     
     // The starting playable position of the lane.
     [SerializeField]
@@ -36,10 +35,13 @@ public class BallPhysics : MonoBehaviour
     {
         m_body = GetComponent<Rigidbody>();
     }
-
-    // Start is called before the first frame update
-    void Start()
+    
+    void OnEnable()
     {
+        // Clamp initial velocity so that the ball does not stop rolling before it reaches the end,
+        // or so that it does not go flying off.
+        m_V0.z = Mathf.Clamp(m_V0.z, 6.0f, 7.5f);
+        m_V0.y = m_V0.z / 4;
         m_body.velocity = m_V0;
     }
 
@@ -47,13 +49,12 @@ public class BallPhysics : MonoBehaviour
     void FixedUpdate()
     {
         // Calculating how much the ball is spinning, depending on a predefined curved graph
-        // TODO: affect this final result based on the initial throw angle from the z-axis (dot product).
         float ballspin = ((transform.position.z - m_startPosition.z) > 0) && (m_spinDotP <= m_maxDotPValue) ?
                             Mathf.Sign(m_spinDotP) *
                             m_turnAndSpinOverTime.Evaluate(Mathf.Abs(transform.position.z - m_startPosition.z))
                             : 0;
 
-        // TODO: The more angle and intial spin, the more the ball will turn over time, thus adding more foce torque at an angle.
+        // Based on the initial throw angle, curve the ball
         m_body.AddForce(-m_spinDotP * m_curveMult, 0, 0);
 
         transform.Rotate(0, 0, ballspin, Space.World);
@@ -74,7 +75,7 @@ public class BallPhysics : MonoBehaviour
                 Physics.IgnoreCollision(GetComponent<Collider>(), collision.collider);
                 
                 // Reset the current velocity to be the initial throw velocity.
-                m_body.velocity = m_V0;
+                m_body.velocity = new Vector3(m_V0.x, m_body.velocity.y, m_V0.z);
             break;
         }
     }

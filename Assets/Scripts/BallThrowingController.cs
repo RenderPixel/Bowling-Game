@@ -4,7 +4,6 @@ using UnityEngine.InputSystem.EnhancedTouch;
 
 public class BallThrowingController : MonoBehaviour
 {
-
     // Camera to use
     [SerializeField]
     Camera m_camera;
@@ -30,6 +29,13 @@ public class BallThrowingController : MonoBehaviour
     // as we are doing so, it will not switch to dragging the ball.
     bool m_panning = false;
 
+    // Overall finger velocity vector
+    Vector2 m_fingerDxDtDyDt;
+
+    // A boolean used to check if, we are holding the ball, and we have enough velocity,
+    // the ball will be thrown.
+    bool m_ballHeld;
+
     void OnEnable()
     {
         // Enable the corret touch inputs.
@@ -41,12 +47,16 @@ public class BallThrowingController : MonoBehaviour
 
         // Resetting the panning bool to make sure we can select the ball if we wanted to.
         UnityEngine.InputSystem.EnhancedTouch.Touch.onFingerUp += (finger) => m_panning = false;
+
+        // Subscribing the throw ball function when the finger is lifted up
+        UnityEngine.InputSystem.EnhancedTouch.Touch.onFingerUp += ThrowBall;
     }
 
     void OnDisable()
     {
-        // Unsubscribe the move ball function first.
-        UnityEngine.InputSystem.EnhancedTouch.Touch.onFingerUp -= OnTouchScreen;
+        // Unsubscribe all previous finger functions
+        UnityEngine.InputSystem.EnhancedTouch.Touch.onFingerMove -= OnTouchScreen;
+        UnityEngine.InputSystem.EnhancedTouch.Touch.onFingerUp -= ThrowBall;
 
         // Disable all touch inputs to make sure not errors happen after the ball is thrown.
         EnhancedTouchSupport.Disable();
@@ -58,41 +68,22 @@ public class BallThrowingController : MonoBehaviour
         m_initialZOffset = -transform.position.z;
     }
 
-    void Update()
-    {
-        
-    }
-
     public void OnTouchScreen(Finger finger)
     {
         // Figure out the velocity at which the finger is dragging along the screen.
         Vector2 fingerDelta = finger.screenPosition - m_previousFingerPos;
-        Vector2 fingerDxDtDyDt = fingerDelta / Time.deltaTime;
+        m_fingerDxDtDyDt = fingerDelta / Time.deltaTime;
 
         // Create a ray to check if we are effectively dragging the ball across the screen.
         Ray cameraOrHolderRay = m_camera.ScreenPointToRay(finger.screenPosition);
 
         // The 7 at the end is to indicate the physics layer mask that we are using, which is the holder mask.
-        if(Physics.Raycast(cameraOrHolderRay, float.PositiveInfinity, 7) && m_panning == false)
+        if(Physics.Raycast(cameraOrHolderRay, float.PositiveInfinity, LayerMask.GetMask("Holder")) && m_panning == false)
             MoveBall(finger);
 
         // If not, then pan the camera left or right.
         else
-        {
-            m_panning = true;
-
-            m_camera.transform.Rotate(0, -fingerDxDtDyDt.x / 700, 0);
-
-            Vector3 angles = m_camera.transform.eulerAngles;
-            float y = ((angles.y + 540) % 360) - 180 - OFFSET;
-
-            // If we are outside the range
-            if(Mathf.Abs(y) > REL_RANGE)
-            {
-                angles.y = REL_RANGE * Mathf.Sign(y) + OFFSET;
-                m_camera.transform.eulerAngles = angles;
-            }
-        }
+            PanCamera(m_fingerDxDtDyDt.x);
 
         // Update the previous finger position.
         m_previousFingerPos = finger.screenPosition;
@@ -100,6 +91,9 @@ public class BallThrowingController : MonoBehaviour
 
     void MoveBall(Finger finger)
     {
+        // Setting the bool that says we are moving the ball
+        m_ballHeld = true;
+
         // Create a mathematical plane to map the ball position.
         Plane plane = new Plane(m_camera.transform.forward.normalized, m_initialZOffset);
 
@@ -125,5 +119,55 @@ public class BallThrowingController : MonoBehaviour
 
         // Convert the view position back to world position.
         transform.position = m_camera.ViewportToWorldPoint(viewPortPosition);
+    }
+    
+    Vector3 RemapCameraAngles()
+    {
+        Vector3 angles = m_camera.transform.eulerAngles;
+        float y = ((angles.y + 540) % 360) - 180 - OFFSET;
+
+        // If we are outside the range
+        if(Mathf.Abs(y) > REL_RANGE)
+            angles.y = REL_RANGE * Mathf.Sign(y) + OFFSET;
+
+        return angles;
+    }
+    
+    void PanCamera(float fingerXVel)
+    {
+        m_panning = true;
+
+        m_camera.transform.Rotate(0, -fingerXVel / 700, 0);
+
+        m_camera.transform.eulerAngles = RemapCameraAngles();
+    }
+
+    void ThrowBall(Finger finger)
+    {
+        // Check if we are holding the ball, and we have enough finger velocity
+        if(m_ballHeld && m_fingerDxDtDyDt.y > 200)
+        {
+            // Unity's Euler Angles are only between 0 and 360 inclusive,
+            // so if we want to have negative angles, we have to do a simple remapping.
+            float xAngle = RemapCameraAngles().y;
+            xAngle = xAngle >= 350 ? xAngle - 360 : xAngle;
+ 
+            // Give the child (ball) its initial velocity
+            GetComponentInChildren<BallPhysics>().m_V0 =
+                                                    new Vector3((xAngle / 10.1f) + (m_fingerDxDtDyDt.x / 600f),
+                                                                m_fingerDxDtDyDt.y / 600f, m_fingerDxDtDyDt.y / 300);
+           
+            // Enable gravity for the actual ball
+            GetComponentInChildren<Rigidbody>().useGravity = true;
+
+            // Start the ball physics script
+            GetComponentInChildren<BallPhysics>().enabled = true;
+
+            // Free the ball from being a child of this
+            transform.DetachChildren();
+
+            // Disable this object
+            gameObject.SetActive(false);
+        }
     }
 }
