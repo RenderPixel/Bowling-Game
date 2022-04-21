@@ -77,6 +77,11 @@ public class BallPhysics : MonoBehaviour
                 // Reset the current velocity to be the initial throw velocity.
                 m_body.velocity = new Vector3(m_V0.x, m_body.velocity.y, m_V0.z);
             break;
+
+            case "Lane":
+                // Activate the child particle system
+                transform.GetChild(0).gameObject.SetActive(true);
+            break;
         }
     }
 }
