@@ -1,12 +1,21 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.EnhancedTouch;
+using Cinemachine;
 
+[RequireComponent(typeof(Animator))]
 public class BallThrowingController : MonoBehaviour
 {
     // Camera to use
     [SerializeField]
-    Camera m_camera;
+    CinemachineVirtualCamera m_camera;
+
+    // An animator to controller the transition between cameras
+    [SerializeField]
+    Animator m_animator;
+    
+    // Ball prefab to use when instantiating a new ball when the round resets
+    [SerializeField]
+    GameObject m_ballPrefab;
     
     // An initial offset to keep the ball on screen while it is being held.
     float m_initialZOffset;
@@ -17,7 +26,6 @@ public class BallThrowingController : MonoBehaviour
     // Minimum and maximum angles of camera panning.
     const float MIN_ANGLE = -10f;
     const float MAX_ANGLE = 10f;
-
     
     // Relative range of panning motion
     const float REL_RANGE = (MAX_ANGLE - MIN_ANGLE) / 2f;
@@ -54,6 +62,9 @@ public class BallThrowingController : MonoBehaviour
 
     void OnDisable()
     {
+        // Switch to the follow Camera
+        m_animator.Play("Follow Camera");
+
         // Unsubscribe all previous finger functions
         UnityEngine.InputSystem.EnhancedTouch.Touch.onFingerMove -= OnTouchScreen;
         UnityEngine.InputSystem.EnhancedTouch.Touch.onFingerUp -= ThrowBall;
@@ -75,7 +86,7 @@ public class BallThrowingController : MonoBehaviour
         m_fingerDxDtDyDt = fingerDelta / Time.deltaTime;
 
         // Create a ray to check if we are effectively dragging the ball across the screen.
-        Ray cameraOrHolderRay = m_camera.ScreenPointToRay(finger.screenPosition);
+        Ray cameraOrHolderRay = Camera.main.ScreenPointToRay(finger.screenPosition);
 
         // The 7 at the end is to indicate the physics layer mask that we are using, which is the holder mask.
         if(Physics.Raycast(cameraOrHolderRay, float.PositiveInfinity, LayerMask.GetMask("Holder")) && m_panning == false)
@@ -100,7 +111,7 @@ public class BallThrowingController : MonoBehaviour
         float distance;
         
         // Create a fingerRay from the position of where the finger is on the screen.
-        Ray fingerRay = m_camera.ScreenPointToRay(finger.screenPosition);
+        Ray fingerRay = Camera.main.ScreenPointToRay(finger.screenPosition);
 
         // Set a dummy world position value.
         Vector3 worldPosition = Vector3.zero;
@@ -110,7 +121,7 @@ public class BallThrowingController : MonoBehaviour
             worldPosition = fingerRay.GetPoint(distance);
         
         // Convert the world position into view position.
-        Vector3 viewPortPosition = m_camera.WorldToViewportPoint(worldPosition);
+        Vector3 viewPortPosition = Camera.main.WorldToViewportPoint(worldPosition);
 
         // Clamp the view position to be between 0 and 1, which are the screen bounds
         // that way, it never leaves the screen.
@@ -118,7 +129,7 @@ public class BallThrowingController : MonoBehaviour
         viewPortPosition.y = Mathf.Clamp01(viewPortPosition.y);
 
         // Convert the view position back to world position.
-        transform.position = m_camera.ViewportToWorldPoint(viewPortPosition);
+        transform.position = Camera.main.ViewportToWorldPoint(viewPortPosition);
     }
     
     Vector3 RemapCameraAngles()
@@ -166,8 +177,8 @@ public class BallThrowingController : MonoBehaviour
             // Free the ball from being a child of this
             transform.DetachChildren();
 
-            // Disable this object
-            gameObject.SetActive(false);
+            // Disable this script
+            enabled = false;
         }
     }
 }
