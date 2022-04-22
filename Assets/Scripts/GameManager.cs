@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
             if (ball != null)
             {
                 //First instance of the game no need for the prefab scoring method
-                if (ball.transform.position.z > 60)
+                if (ball.transform.position.z > 10)
                 {
                     PinsKnocked();
                     // reset = true;
@@ -85,7 +85,7 @@ public class GameManager : MonoBehaviour
                     if (prefabInst != null)
                     {
                         //Scoring Functions
-                        if (prefabInst.transform.position.z > 60){
+                        if (prefabInst.transform.position.z > 10){
                             // Debug.Log("YESASLDJKAJKSDH");
                             PinsKnocked();
                         }
@@ -102,6 +102,17 @@ public class GameManager : MonoBehaviour
                             else if (PinsKnockedOver[i] == true && pinsPrefab[i] != null)
                             {
                                 Destroy(pinsPrefab[i]);
+                            }
+                        }
+                        for(int i = 0; i < 10; i++){
+                            //Reseting pins locations
+                            if(PinsKnockedOver[i]==false && pinsPrefab[i]==null){
+                                pins[i].transform.position = pinPos[i];
+                                pins[i].transform.rotation = pinRot[i];
+                            }
+                            else if(PinsKnockedOver[i]==false && pins[i]==null){
+                                pinsPrefab[i].transform.position = pinPos[i];
+                                pinsPrefab[i].transform.rotation = pinRot[i];
                             }
                         }
                         prefabInst = Instantiate(prefab, ballPos, ballRot);
@@ -158,14 +169,14 @@ public class GameManager : MonoBehaviour
     void PinsKnocked(){
         for(int i = 0; i < 10; i++){
             if(pins[i] != null){
-                if (pins[i].transform.eulerAngles.x > 30 && pins[i].transform.eulerAngles.x < 355
+                if (pins[i].transform.eulerAngles.z > 30 && pins[i].transform.eulerAngles.z < 355
                     && PinsKnockedOver[i] == false){
                     score++;
                     PinsKnockedOver[i] = true;
                 }
             }
             else if (pinsPrefab[i] != null){
-                if (pinsPrefab[i].transform.eulerAngles.x > 30 && pinsPrefab[i].transform.eulerAngles.x < 355
+                if (pinsPrefab[i].transform.eulerAngles.z > 30 && pinsPrefab[i].transform.eulerAngles.z < 355
                     && PinsKnockedOver[i] == false)
                 {
                     score++;
