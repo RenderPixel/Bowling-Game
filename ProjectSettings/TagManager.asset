@@ -7,6 +7,8 @@ TagManager:
   - Pin
   - Ball
   - Bound
+  - Start of Lane
+  - Lane
   layers:
   - Default
   - TransparentFX
@@ -14,9 +16,13 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
+  - Stage Trigger
+  - Holder
   - Hit Detection
+  - 
+  - 
+  - 
+
   - 
   - 
   - 
