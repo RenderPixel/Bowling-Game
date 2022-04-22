@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 8259749192172489227}
   - component: {fileID: 185336784816602568}
   - component: {fileID: 6111652363550329574}
-  - component: {fileID: -3627977218379855753}
   - component: {fileID: 7100918032747093854}
   m_Layer: 0
   m_Name: BowlingPin
@@ -329,19 +328,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.118, y: 0.36, z: 0.118}
   m_Center: {x: 0.059, y: 0.19, z: -0.059}
---- !u!114 &-3627977218379855753
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7451680548824709800}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd989148da5c7404fa40e350a697b7e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rb: {fileID: 7100918032747093854}
 --- !u!54 &7100918032747093854
 Rigidbody:
   m_ObjectHideFlags: 0

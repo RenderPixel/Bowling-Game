@@ -3,17 +3,12 @@ using UnityEngine;
 public class Movement : MonoBehaviour
 {
     public GameObject ball;
+
+
     public Rigidbody rb;
     //Movement Scipts to help test
     public float fowardForce = 10f;
     public float sideForce = 5f;
-
-    private Vector3 ballPos;
-
-    void Start() {
-        //Grabbing the Postion of the ball
-        ballPos = GameObject.FindGameObjectWithTag("Ball").transform.position;  
-    }
 
     // When working with the physics system used FixedUpdate()
     void FixedUpdate(){
@@ -45,14 +40,14 @@ public class Movement : MonoBehaviour
         }
     }
 
-    public float timeDespawn = 5;
+    public float timeDespawn = 2;
     private bool collisionOccured = false;
 
     void OnCollisionEnter(Collision col)
     {
         if (collisionOccured)
             return;
-        if (col.gameObject.name == "OoB")
+        if (col.gameObject.tag == "Bound")
         {
             collisionOccured = true;
         }
