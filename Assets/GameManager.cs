@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     // int loc = 0;
     // bool[] ballReset;
     
-    int score = 0;
+    int score = 1;
 
     [SerializeField]
 //List of the 10 Pins
@@ -109,33 +109,6 @@ public class GameManager : MonoBehaviour
                         reset = true;//maybe issue
                     }
                 }
-                // if (prefabInst != null)
-                // {
-                //     //Scoring Functions
-                //     if (prefabInst.transform.position.z > 60)
-                //     {
-                //         // Debug.Log("YESASLDJKAJKSDH");
-                //         PinsKnocked();
-                //         reset =  true;
-                //     }
-
-                // }
-                // else if (prefabInst == null)
-                // {
-                //     for (int i = 0; i < 10; i++)
-                //     {
-                //         if (PinsKnockedOver[i] == true && pins[i] != null)
-                //         {
-                //             Destroy(pins[i]);
-                //         }
-                //         else if (PinsKnockedOver[i] == true && pinsPrefab[i] != null)
-                //         {
-                //             Destroy(pinsPrefab[i]);
-                //         }
-                //     }
-                //     prefabInst = Instantiate(prefab, ballPos, ballRot);
-                //     reset = false;//maybe issue
-                // }
                 //The ball prefab is destroyed
                 else if (prefabInst == null)
                 {
@@ -202,6 +175,5 @@ public class GameManager : MonoBehaviour
             }
             Debug.Log("Your score is " + score);
         }
-        
     }
 }
