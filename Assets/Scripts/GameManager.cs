@@ -1,25 +1,26 @@
-// using System.Collections;
-// using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class GameManager : MonoBehaviour
 {
     [SerializeField]
     public GameObject ball;
 
-    // [SerializeField]
     public GameObject prefab;
 
-    // [SerializeField]
     public GameObject pinPre;
-    
-    // int loc = 0;
-    // bool[] ballReset;
     
     int score = 1;
 
     [SerializeField]
-//List of the 10 Pins
+    GameObject ballHolder;
+    Animator holderAnimator;
+    
+    [SerializeField]
+    CinemachineVirtualCamera followCamera;
+
+    //List of the 10 Pins
+    [SerializeField]
     GameObject[] pins = new GameObject[10];
 
     GameObject[] pinsPrefab = new GameObject[10];
@@ -29,7 +30,6 @@ public class GameManager : MonoBehaviour
     //Keeping track of the knocked 
     bool[] PinsKnockedOver = new bool[10];
     bool reset = false;
-    // int reset = 0;
 
     //Holding starting location for the ball
     private Vector3 ballPos;
@@ -40,6 +40,10 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     private Quaternion[] pinRot = new Quaternion[10];
+
+    void Awake() {
+        holderAnimator = ballHolder.GetComponent<Animator>();    
+    }
 
     // Start is called before the first frame update
     void Start(){
@@ -59,9 +63,6 @@ public class GameManager : MonoBehaviour
     public int bowlingLoop = 3;
     private int bLoop = 0;
 
-    // private bool pinDes = false;
-
-    // Update is called once per frame
     void FixedUpdate(){
         if(bLoop != bowlingLoop){
             //First Ball is active
@@ -69,40 +70,28 @@ public class GameManager : MonoBehaviour
             {
                 //First instance of the game no need for the prefab scoring method
                 if (ball.transform.position.z > 10)
-                {
                     PinsKnocked();
-                    // reset = true;
-                }
-                // reset = 1;
             }
             // First Ball is destroyed
             else if (ball == null)
             {
                 //First Part of the next stage
-                // if (reset == false)//right here 
                 if (reset == false)//right here 
                 {
                     if (prefabInst != null)
                     {
                         //Scoring Functions
-                        if (prefabInst.transform.position.z > 10){
-                            // Debug.Log("YESASLDJKAJKSDH");
+                        if (prefabInst.transform.position.z > 10)
                             PinsKnocked();
-                        }
-                        
                     }
                     else if (prefabInst == null)
                     {
                         for (int i = 0; i < 10; i++)
                         {
                             if (PinsKnockedOver[i] == true && pins[i] != null)
-                            {
                                 Destroy(pins[i]);
-                            }
                             else if (PinsKnockedOver[i] == true && pinsPrefab[i] != null)
-                            {
                                 Destroy(pinsPrefab[i]);
-                            }
                         }
                         for(int i = 0; i < 10; i++){
                             //Reseting pins locations
@@ -115,7 +104,11 @@ public class GameManager : MonoBehaviour
                                 pinsPrefab[i].transform.rotation = pinRot[i];
                             }
                         }
-                        prefabInst = Instantiate(prefab, ballPos, ballRot);
+                        holderAnimator.SetTrigger("New Ball");
+                        prefabInst = Instantiate(prefab, ballHolder.transform.position, ballRot);
+                        prefabInst.transform.parent = ballHolder.transform;
+                        followCamera.Follow = followCamera.LookAt = prefabInst.transform;
+                        ballHolder.GetComponent<BallThrowingController>().enabled = true;
                         reset = true;//maybe issue
                     }
                 }
@@ -151,12 +144,15 @@ public class GameManager : MonoBehaviour
                             }
                         }
                         for (int i = 0; i < 10; i++)
-                        {
-                            // Quaternion.idnetity
                             pinsPrefab[i] = Instantiate(pinPre, pinPos[i], pinRot[i]);
-                        }
                     }
-                    prefabInst = Instantiate(prefab, ballPos, ballRot);
+                    // Switch back to the original controller camera by telling the animator that
+                    // a new ball has been created.
+                    holderAnimator.SetTrigger("New Ball");
+                    prefabInst = Instantiate(prefab, ballHolder.transform.position, ballRot);
+                    followCamera.Follow = followCamera.LookAt = prefabInst.transform;
+                    prefabInst.transform.parent = ballHolder.transform;
+                    ballHolder.GetComponent<BallThrowingController>().enabled = true;
                     reset = false;
                     bLoop++;
                 }
