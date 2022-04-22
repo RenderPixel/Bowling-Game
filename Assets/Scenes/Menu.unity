@@ -517,7 +517,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 42955648}
         m_TargetAssemblyTypeName: OpenScene, Assembly-CSharp
-        m_MethodName: OpenBowlingLane
+        m_MethodName: OpenStageOne
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -887,7 +887,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 335309588}
         m_TargetAssemblyTypeName: OpenScene, Assembly-CSharp
-        m_MethodName: OpenBowlingLane
+        m_MethodName: OpenStageFour
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2397,7 +2397,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 803274713}
         m_TargetAssemblyTypeName: OpenScene, Assembly-CSharp
-        m_MethodName: OpenBowlingLane
+        m_MethodName: OpenStageTwo
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4718,7 +4718,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1308536454}
         m_TargetAssemblyTypeName: OpenScene, Assembly-CSharp
-        m_MethodName: OpenBowlingLane
+        m_MethodName: OpenStageFive
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5928,7 +5928,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1715065195}
         m_TargetAssemblyTypeName: OpenScene, Assembly-CSharp
-        m_MethodName: OpenBowlingLane
+        m_MethodName: OpenStageThree
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6809,7 +6809,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &2075676066
 MonoBehaviour:
   m_ObjectHideFlags: 0
