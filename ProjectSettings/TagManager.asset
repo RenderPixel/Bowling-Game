@@ -4,6 +4,9 @@
 TagManager:
   serializedVersion: 2
   tags:
+  - Pin
+  - Ball
+  - Bound
   - Start of Lane
   - Lane
   layers:
@@ -15,7 +18,11 @@ TagManager:
   - UI
   - Stage Trigger
   - Holder
+  - Hit Detection
   - 
+  - 
+  - 
+
   - 
   - 
   - 
