@@ -4,5 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Bowling Lane.unity
+    guid: 775f2a4f5c7ef40d991c5b414f3b83f8
+  - enabled: 1
+    path: Assets/Scenes/Menu.unity
+    guid: 261d9bbb4159e4fea99be70d1bebb5b6
   m_configObjects: {}
