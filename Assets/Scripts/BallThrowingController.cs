@@ -63,7 +63,7 @@ public class BallThrowingController : MonoBehaviour
     void OnDisable()
     {
         // Switch to the follow Camera
-        m_animator.Play("Follow Camera");
+        m_animator.SetTrigger("Ball Thrown");
 
         // Unsubscribe all previous finger functions
         UnityEngine.InputSystem.EnhancedTouch.Touch.onFingerMove -= OnTouchScreen;

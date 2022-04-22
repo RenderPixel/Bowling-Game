@@ -349,8 +349,4 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   m_CustomBlends: {fileID: 0}
-  m_ParentHash:
-  - m_Hash: -433389187
-    m_ParentHash: 756556552
-  - m_Hash: 479120574
-    m_ParentHash: 756556552
+  m_ParentHash: []
