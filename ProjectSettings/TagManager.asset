@@ -3,7 +3,12 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Pin
+  - Ball
+  - Bound
+  - Start of Lane
+  - Lane
   layers:
   - Default
   - TransparentFX
@@ -11,9 +16,13 @@ TagManager:
   - 
   - Water
   - UI
+  - Stage Trigger
+  - Holder
+  - Hit Detection
   - 
   - 
   - 
+
   - 
   - 
   - 
