@@ -40,7 +40,7 @@ public class BallPhysics : MonoBehaviour
     {
         // Clamp initial velocity so that the ball does not stop rolling before it reaches the end,
         // or so that it does not go flying off.
-        m_V0.z = Mathf.Clamp(m_V0.z, 6.0f, 7.5f);
+        m_V0.z = Mathf.Clamp(m_V0.z, 6.5f, 7.5f);
         m_V0.y = m_V0.z / 4;
         m_body.velocity = m_V0;
     }

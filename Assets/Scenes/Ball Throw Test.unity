@@ -6460,7 +6460,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LookAt
       value: 
-      objectReference: {fileID: 854459395}
+      objectReference: {fileID: 0}
     - target: {fileID: 4259593212665494026, guid: 9c6cd89f60f60f4499c2cf74d7ac5b9d,
         type: 3}
       propertyPath: m_LocalRotation.w

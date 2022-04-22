@@ -107,7 +107,7 @@ public class GameManager : MonoBehaviour
                         holderAnimator.SetTrigger("New Ball");
                         prefabInst = Instantiate(prefab, ballHolder.transform.position, ballRot);
                         prefabInst.transform.parent = ballHolder.transform;
-                        followCamera.Follow = followCamera.LookAt = prefabInst.transform;
+                        followCamera.Follow = prefabInst.transform;
                         ballHolder.GetComponent<BallThrowingController>().enabled = true;
                         reset = true;//maybe issue
                     }
@@ -150,7 +150,7 @@ public class GameManager : MonoBehaviour
                     // a new ball has been created.
                     holderAnimator.SetTrigger("New Ball");
                     prefabInst = Instantiate(prefab, ballHolder.transform.position, ballRot);
-                    followCamera.Follow = followCamera.LookAt = prefabInst.transform;
+                    followCamera.Follow = prefabInst.transform;
                     prefabInst.transform.parent = ballHolder.transform;
                     ballHolder.GetComponent<BallThrowingController>().enabled = true;
                     reset = false;
