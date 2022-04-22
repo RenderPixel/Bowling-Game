@@ -945,6 +945,7 @@ GameObject:
   - component: {fileID: 347924880}
   - component: {fileID: 347924879}
   - component: {fileID: 347924878}
+  - component: {fileID: 347924881}
   m_Layer: 5
   m_Name: ButtonEquipBallOne
   m_TagString: Untagged
@@ -1014,7 +1015,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 347924879}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 347924881}
+        m_TargetAssemblyTypeName: ToggleEquip, Assembly-CSharp
+        m_MethodName: ChangeButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &347924879
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1053,6 +1066,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 347924876}
   m_CullTransparentMesh: 1
+--- !u!114 &347924881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 347924876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b29c66a00c7a4fe3bb5f249db722b84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CurrentButton: {fileID: 347924876}
+  OtherButton: {fileID: 1733497853}
 --- !u!1 &718987693
 GameObject:
   m_ObjectHideFlags: 0
@@ -1217,7 +1244,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &752134397
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2280,6 +2307,7 @@ GameObject:
   - component: {fileID: 1733497857}
   - component: {fileID: 1733497856}
   - component: {fileID: 1733497855}
+  - component: {fileID: 1733497858}
   m_Layer: 5
   m_Name: ButtonEquipBallTwo
   m_TagString: Untagged
@@ -2349,7 +2377,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1733497856}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1733497858}
+        m_TargetAssemblyTypeName: ToggleEquip, Assembly-CSharp
+        m_MethodName: ChangeButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1733497856
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2388,6 +2428,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1733497853}
   m_CullTransparentMesh: 1
+--- !u!114 &1733497858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1733497853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b29c66a00c7a4fe3bb5f249db722b84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CurrentButton: {fileID: 1733497853}
+  OtherButton: {fileID: 347924876}
 --- !u!1 &1737156970
 GameObject:
   m_ObjectHideFlags: 0
@@ -3005,7 +3059,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &2078527599
 MonoBehaviour:
   m_ObjectHideFlags: 0
