@@ -5,17 +5,19 @@ using Cinemachine;
 [RequireComponent(typeof(Animator))]
 public class BallThrowingController : MonoBehaviour
 {
-    // Camera to use
     [SerializeField]
-    CinemachineVirtualCamera m_camera;
+    GameManager m_gameManager;
+
+    // Cameras to use
+    [SerializeField]
+    CinemachineVirtualCamera m_controlCamera;
+
+    [SerializeField]
+    CinemachineVirtualCamera m_followCamera;
 
     // An animator to controller the transition between cameras
     [SerializeField]
     Animator m_animator;
-    
-    // Ball prefab to use when instantiating a new ball when the round resets
-    [SerializeField]
-    GameObject m_ballPrefab;
     
     // An initial offset to keep the ball on screen while it is being held.
     float m_initialZOffset;
@@ -76,6 +78,17 @@ public class BallThrowingController : MonoBehaviour
 
     void Start()
     {
+        // The the default ball for the holder
+        var newBall = Instantiate(PlayerInventory.Instance.balls[PlayerInventory.Instance.currentBall].Item1,
+                                    transform.position, Quaternion.Euler(Vector3.zero));
+
+        m_gameManager.ball = newBall;
+        
+        // Set the parent of this new obect to be this holder
+        newBall.transform.parent = transform;
+
+        m_followCamera.Follow = newBall.transform;
+
         m_initialZOffset = -transform.position.z;
     }
 
@@ -106,7 +119,7 @@ public class BallThrowingController : MonoBehaviour
         m_ballHeld = true;
 
         // Create a mathematical plane to map the ball position.
-        Plane plane = new Plane(m_camera.transform.forward.normalized, m_initialZOffset);
+        Plane plane = new Plane(m_controlCamera.transform.forward.normalized, m_initialZOffset);
 
         float distance;
         
@@ -134,7 +147,7 @@ public class BallThrowingController : MonoBehaviour
     
     Vector3 RemapCameraAngles()
     {
-        Vector3 angles = m_camera.transform.eulerAngles;
+        Vector3 angles = m_controlCamera.transform.eulerAngles;
         float y = ((angles.y + 540) % 360) - 180 - OFFSET;
 
         // If we are outside the range
@@ -148,9 +161,9 @@ public class BallThrowingController : MonoBehaviour
     {
         m_panning = true;
 
-        m_camera.transform.Rotate(0, -fingerXVel / 700, 0);
+        m_controlCamera.transform.Rotate(0, -fingerXVel / 700, 0);
 
-        m_camera.transform.eulerAngles = RemapCameraAngles();
+        m_controlCamera.transform.eulerAngles = RemapCameraAngles();
     }
 
     void ThrowBall(Finger finger)

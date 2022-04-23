@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 2709378326435255882}
   - component: {fileID: 9026318794405910599}
   m_Layer: 0
-  m_Name: Ball
+  m_Name: Ol' Reliable
   m_TagString: Ball
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -107,7 +107,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2709378326435255884}
   serializedVersion: 2
-  m_Mass: 7
+  m_Mass: 8
   m_Drag: 0
   m_AngularDrag: 0
   m_UseGravity: 0
@@ -180,7 +180,6 @@ GameObject:
   - component: {fileID: 6482056067721933736}
   - component: {fileID: 6928583235246341486}
   - component: {fileID: 3601458103059420220}
-  - component: {fileID: 7703355241332857584}
   m_Layer: 0
   m_Name: Particle System
   m_TagString: Untagged
@@ -5032,29 +5031,3 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!1773428102 &7703355241332857584
-ParentConstraint:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6609164945050687315}
-  m_Enabled: 1
-  m_Weight: 1
-  m_TranslationAtRest: {x: 0, y: -0.461, z: -0.457}
-  m_RotationAtRest: {x: 0, y: 0, z: 0}
-  m_TranslationOffsets:
-  - {x: 0, y: 0, z: 0}
-  m_RotationOffsets:
-  - {x: 0, y: 0, z: 0}
-  m_AffectTranslationX: 0
-  m_AffectTranslationY: 0
-  m_AffectTranslationZ: 0
-  m_AffectRotationX: 1
-  m_AffectRotationY: 1
-  m_AffectRotationZ: 1
-  m_IsContraintActive: 1
-  m_IsLocked: 1
-  m_Sources:
-  - sourceTransform: {fileID: 0}
-    weight: 1
