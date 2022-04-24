@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
-    public GameObject ball;
-
     // When working with the physics system used FixedUpdate()
     public float timeDespawn = 2;
     private bool collisionOccured = false;
@@ -22,9 +20,17 @@ public class Movement : MonoBehaviour
                 timeDespawn -= Time.deltaTime;
             }
             else{
-                Destroy(ball);
+                Destroy(this.gameObject);
                 timeDespawn += 5;
             }
         }
+    }
+
+    void OnDestroy() 
+    {
+        var ballHolder = GameObject.Find("Ball Holder");
+
+        ballHolder.GetComponent<Animator>().SetTrigger("New Ball");
+        ballHolder.GetComponent<BallThrowingController>().enabled = true;
     }
 }

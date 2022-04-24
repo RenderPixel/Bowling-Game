@@ -3,7 +3,6 @@ using Cinemachine;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField]
     public GameObject ball;
 
     public GameObject prefab;
@@ -14,8 +13,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     GameObject ballHolder;
-    Animator holderAnimator;
-    
+
     [SerializeField]
     CinemachineVirtualCamera followCamera;
 
@@ -31,8 +29,6 @@ public class GameManager : MonoBehaviour
     bool[] PinsKnockedOver = new bool[10];
     bool reset = false;
 
-    //Holding starting location for the ball
-    private Vector3 ballPos;
     private Quaternion ballRot;
 
     [SerializeField]
@@ -41,17 +37,14 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Quaternion[] pinRot = new Quaternion[10];
 
-    void Awake() {
-        holderAnimator = ballHolder.GetComponent<Animator>();    
-    }
-
     // Start is called before the first frame update
     void Start(){
+        prefab = PlayerInventory.Instance.balls[PlayerInventory.Instance.currentBall].Item1;
+
         pins = GameObject.FindGameObjectsWithTag("Pin");
         PinsKnockedOver = new bool[pins.Length];
 
         //Grabbing the Postion of the ball
-        ballPos = GameObject.FindGameObjectWithTag("Ball").transform.position;
         ballRot = GameObject.FindGameObjectWithTag("Ball").transform.rotation;
 
         for (int i = 0; i < pins.Length; i++){
@@ -104,11 +97,10 @@ public class GameManager : MonoBehaviour
                                 pinsPrefab[i].transform.rotation = pinRot[i];
                             }
                         }
-                        holderAnimator.SetTrigger("New Ball");
-                        prefabInst = Instantiate(prefab, ballHolder.transform.position, ballRot);
+
+                        prefabInst = Instantiate(prefab, ballHolder.transform.position, Quaternion.Euler(Vector3.zero));
                         prefabInst.transform.parent = ballHolder.transform;
-                        followCamera.Follow = followCamera.LookAt = prefabInst.transform;
-                        ballHolder.GetComponent<BallThrowingController>().enabled = true;
+                        followCamera.Follow = prefabInst.transform;
                         reset = true;//maybe issue
                     }
                 }
@@ -137,7 +129,6 @@ public class GameManager : MonoBehaviour
                             Debug.Log(PinsKnockedOver[j]);
                             if (pins[j] != null){
                                 Destroy(pins[j]);
-                                // pinDes = true;
                             }
                             else if(pinsPrefab[j] != null){
                                 Destroy(pinsPrefab[j]);
@@ -146,13 +137,10 @@ public class GameManager : MonoBehaviour
                         for (int i = 0; i < 10; i++)
                             pinsPrefab[i] = Instantiate(pinPre, pinPos[i], pinRot[i]);
                     }
-                    // Switch back to the original controller camera by telling the animator that
-                    // a new ball has been created.
-                    holderAnimator.SetTrigger("New Ball");
-                    prefabInst = Instantiate(prefab, ballHolder.transform.position, ballRot);
-                    followCamera.Follow = followCamera.LookAt = prefabInst.transform;
+
+                    prefabInst = Instantiate(prefab, ballHolder.transform.position, Quaternion.Euler(Vector3.zero));
                     prefabInst.transform.parent = ballHolder.transform;
-                    ballHolder.GetComponent<BallThrowingController>().enabled = true;
+                    followCamera.Follow = prefabInst.transform;
                     reset = false;
                     bLoop++;
                 }
